@@ -41,6 +41,8 @@ def vectorize(text, definition):
     cos_sim = cosine_similarity(matrix, matrix)
     return cos_sim[0, 1]
 
-df_sents['similarity'] = df_sents['text_stems'].apply(lambda row: vectorize(row, df_defs['def_stems'].loc[0]))
+for i in range(len(df_defs)):
+    df_sents[f'similarity_{i}'] = df_sents['text_stems'].apply(lambda row: vectorize(row, df_defs['def_stems'].loc[i]))
+    i += 1
 
 print(df_sents)

@@ -32,7 +32,7 @@ def clean(sentence):
 df_defs['def_stems'] = df_defs['definitions'].apply(lambda row: clean(row))
 df_sents['text_stems'] = df_sents['sentences'].apply(lambda row: clean(row))
 
-def vectorize(text,definition):
+def vectorize(text, definition):
     vectorizer = TfidfVectorizer()
     text_str = ' '.join(text)
     def_str = ' '.join(definition)
@@ -40,5 +40,7 @@ def vectorize(text,definition):
     matrix = vectorizer.fit_transform(corpus)
     cos_sim = cosine_similarity(matrix, matrix)
     return cos_sim[0, 1]
+
+df_sents['similarity'] = df_sents['text_stems'].apply(lambda row: vectorize(row, df_defs['def_stems'].loc[0]))
 
 print(df_sents)
